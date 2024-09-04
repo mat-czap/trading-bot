@@ -4,6 +4,13 @@
 npm install
 ```
 
+# add envs .env
+```
+POLL_INTERVAL=10000
+CRYPTO_SYMBOL=BTCUSDT
+PORT=6000
+```
+
 # To run:
 
 ```
