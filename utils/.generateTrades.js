@@ -33,18 +33,15 @@ function generateMockTrades(count, symbol) {
   return trades;
 }
 
-// Helper to check if this file is run from the terminal directly
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Check if script is executed directly via terminal
 if (process.argv[1] === __filename) {
-  const symbol = process.argv[2] || "BTCUSDT"; // Default to "BTCUSDT" if no symbol is passed
-  const count = parseInt(process.argv[3], 10) || 500; // Default to 500 if no count is passed
+  const symbol = process.argv[2] || "BTCUSDT";
+  const count = parseInt(process.argv[3], 10) || 500;
 
   const trades = generateMockTrades(count, symbol);
 
-  // Write the trades to utils/trades.json
   const outputFile = path.resolve(__dirname, "trades.json");
   fs.writeFileSync(outputFile, JSON.stringify(trades, null, 2));
   console.log(

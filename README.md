@@ -1,4 +1,4 @@
-# trading-bot
+# trading-bot (wip)
 
 ```npm
 npm install

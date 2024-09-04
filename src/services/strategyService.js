@@ -1,6 +1,5 @@
 import Transaction from "../models/Transaction.js";
 import Strategy from "../models/Strategy.js";
-import { get } from "mongoose";
 
 const applyTradingStrategy = async (symbol, newTrades) => {
   const strategies = await Strategy.find({ isActive: true }).exec();
@@ -95,14 +94,12 @@ const calculateStrategyIdPerformance = async (strategyId) => {
   }
 
   let totalProfit = 0;
-  let currentPosition = null; // Track the last buy transaction
+  let currentPosition = null;
 
   for (const transaction of transactions) {
     console.log("Processing transaction:", transaction);
 
     if (transaction.type === "buy") {
-      // If already holding a position, this would overwrite it.
-      // Add a check if you want to avoid overwriting positions.
       currentPosition = {
         price: transaction.price,
         quantity: transaction.quantity,
@@ -111,14 +108,12 @@ const calculateStrategyIdPerformance = async (strategyId) => {
         `Bought at price: ${transaction.price}, Quantity: ${transaction.quantity}`
       );
     } else if (transaction.type === "sell" && currentPosition) {
-      // Calculate profit only when a sell follows a buy
       const profit =
         (transaction.price - currentPosition.price) * currentPosition.quantity;
       totalProfit += profit;
       console.log(
         `Sold at price: ${transaction.price}, Buy price: ${currentPosition.price}, Quantity: ${currentPosition.quantity}, Profit: ${profit}`
       );
-      // After selling, reset the currentPosition
       currentPosition = null;
     }
   }
